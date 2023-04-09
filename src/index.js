@@ -33,19 +33,28 @@ let shaderProgram = initShaderProgram(gl, vsSource, fsSource);
 gl.useProgram(shaderProgram);
 
 
+
 initBuffersCube()
 
 let positionAttribLocationCube = enableVertexAttrib(
     shaderProgram,
     "vertPositions",
-    3, 3, 0);
+    3, 6, 0);
 gl.enableVertexAttribArray(positionAttribLocationCube);
 
+
+let normalLocation = enableVertexAttrib(
+    shaderProgram,
+    "a_normal",
+    3, 6, 3);
+// Включаем атрибут нормалей
+gl.enableVertexAttribArray(normalLocation);
 
 let matWorldLocationCube = gl.getUniformLocation(shaderProgram, "mWorld");
 let matViewLocationCube = gl.getUniformLocation(shaderProgram, "mView");
 let matProjLocationCube = gl.getUniformLocation(shaderProgram, "mProj");
 let vecColors = gl.getUniformLocation(shaderProgram, "uColors");
+var lightWorldPositionLocation = gl.getUniformLocation(shaderProgram, "u_lightWorldPosition");
 
 let worldMatrixCube = new Float32Array(16);
 let viewMatrixCube = new Float32Array(16);
@@ -139,7 +148,9 @@ document.addEventListener('keydown', (event) => {
     }
 }, false);
 
-
+initBuffersCube()
+// setNormals()
+gl.uniform3fv(lightWorldPositionLocation, [20, 30, 50]);
 function loop() {
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
@@ -148,21 +159,26 @@ function loop() {
     gl.uniform3fv(vecColors, [1, 0.84, 0])
     glMatrix.mat4.copy(worldMatrixCube, topCubeWMatx);
     gl.uniformMatrix4fv(matWorldLocationCube, false, worldMatrixCube);
+
     gl.drawArrays(gl.TRIANGLES, 0, 40);
+
 
     glMatrix.mat4.copy(worldMatrixCube, botCubeWMatx);
     gl.uniformMatrix4fv(matWorldLocationCube, false, worldMatrixCube);
     gl.drawArrays(gl.TRIANGLES, 0, 40);
+
 
     gl.uniform3fv(vecColors, [0.66, 0.66, 0.66])
     glMatrix.mat4.copy(worldMatrixCube, leftCubeWMatx);
     gl.uniformMatrix4fv(matWorldLocationCube, false, worldMatrixCube);
     gl.drawArrays(gl.TRIANGLES, 0, 40);
 
+
     gl.uniform3fv(vecColors, [0.66, 0.57, 0.33])
     glMatrix.mat4.copy(worldMatrixCube, rightCubeWMatx);
     gl.uniformMatrix4fv(matWorldLocationCube, false, worldMatrixCube);
     gl.drawArrays(gl.TRIANGLES, 0, 40);
+
 
     requestAnimationFrame(loop);
 }

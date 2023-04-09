@@ -56,6 +56,7 @@ let vecColors = gl.getUniformLocation(shaderProgram, "uColors");
 var lightWorldPositionLocation = gl.getUniformLocation(shaderProgram, "u_lightWorldPosition");
 var viewWorldPositionLocation = gl.getUniformLocation(shaderProgram, "u_viewWorldPosition");
 var shininessLocation = gl.getUniformLocation(shaderProgram, "u_shininess");
+var powerLocation = gl.getUniformLocation(shaderProgram, "u_lightPower");
 var lightColorLocation =
     gl.getUniformLocation(shaderProgram, "u_lightColor");
 var specularColorLocation =
@@ -71,7 +72,7 @@ glMatrix.mat4.lookAt(viewMatrixCube, [0, 0, -20], [0, 0, 0], [0, 1, 0]);
 glMatrix.mat4.perspective(projMatrixCube, angle(45), canvas.width / canvas.height, 0.1, 1000.0);
 
 gl.uniform3fv(viewWorldPositionLocation, [0, -1, 0]);
-gl.uniform1f(shininessLocation, 500);
+gl.uniform1f(shininessLocation, 100);
 
 gl.uniformMatrix4fv(matWorldLocationCube, false, worldMatrixCube);
 gl.uniformMatrix4fv(matViewLocationCube, false, viewMatrixCube);
@@ -162,6 +163,24 @@ document.addEventListener('keydown', (event) => {
 initBuffersCube()
 // setNormals()
 gl.uniform3fv(lightWorldPositionLocation, [20, 30, 50]);
+
+
+
+let shininessElement = document.getElementById('shininess')
+gl.uniform1f(shininessLocation, shininessElement.value);
+
+shininessElement.addEventListener("input", () => {
+    gl.uniform1f(shininessLocation, shininessElement.value);
+});
+
+
+
+let powerElement = document.getElementById('power')
+gl.uniform1f(powerLocation, powerElement.value/100);
+
+powerElement.addEventListener("input", () => {
+    gl.uniform1f(powerLocation, powerElement.value/100);
+});
 
 function loop() {
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);

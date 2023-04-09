@@ -33,7 +33,6 @@ let shaderProgram = initShaderProgram(gl, vsSource, fsSource);
 gl.useProgram(shaderProgram);
 
 
-
 initBuffersCube()
 
 let positionAttribLocationCube = enableVertexAttrib(
@@ -55,6 +54,12 @@ let matViewLocationCube = gl.getUniformLocation(shaderProgram, "mView");
 let matProjLocationCube = gl.getUniformLocation(shaderProgram, "mProj");
 let vecColors = gl.getUniformLocation(shaderProgram, "uColors");
 var lightWorldPositionLocation = gl.getUniformLocation(shaderProgram, "u_lightWorldPosition");
+var viewWorldPositionLocation = gl.getUniformLocation(shaderProgram, "u_viewWorldPosition");
+var shininessLocation = gl.getUniformLocation(shaderProgram, "u_shininess");
+var lightColorLocation =
+    gl.getUniformLocation(shaderProgram, "u_lightColor");
+var specularColorLocation =
+    gl.getUniformLocation(shaderProgram, "u_specularColor");
 
 let worldMatrixCube = new Float32Array(16);
 let viewMatrixCube = new Float32Array(16);
@@ -65,10 +70,16 @@ glMatrix.mat4.identity(worldMatrixCube)
 glMatrix.mat4.lookAt(viewMatrixCube, [0, 0, -20], [0, 0, 0], [0, 1, 0]);
 glMatrix.mat4.perspective(projMatrixCube, angle(45), canvas.width / canvas.height, 0.1, 1000.0);
 
+gl.uniform3fv(viewWorldPositionLocation, [0, -1, 0]);
+gl.uniform1f(shininessLocation, 500);
+
 gl.uniformMatrix4fv(matWorldLocationCube, false, worldMatrixCube);
 gl.uniformMatrix4fv(matViewLocationCube, false, viewMatrixCube);
 gl.uniformMatrix4fv(matProjLocationCube, false, projMatrixCube);
 gl.uniform3fv(vecColors, uColorsCube)
+gl.uniform3fv(lightColorLocation, [1 / 2.2, 0.6 / 2.2, 0.6 / 2.2]);  // красный свет
+// заадаём цвет бликов
+gl.uniform3fv(specularColorLocation, [1 / 1.4, 0.2 / 1.4, 0.2 / 1.4]);
 
 
 gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
@@ -151,6 +162,7 @@ document.addEventListener('keydown', (event) => {
 initBuffersCube()
 // setNormals()
 gl.uniform3fv(lightWorldPositionLocation, [20, 30, 50]);
+
 function loop() {
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 

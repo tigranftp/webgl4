@@ -56,10 +56,16 @@ let vecColors = gl.getUniformLocation(shaderProgram, "uColors");
 var lightWorldPositionLocation = gl.getUniformLocation(shaderProgram, "u_lightWorldPosition");
 var viewWorldPositionLocation = gl.getUniformLocation(shaderProgram, "u_viewWorldPosition");
 var shininessLocation = gl.getUniformLocation(shaderProgram, "u_shininess");
+var gouraudShadingLocation = gl.getUniformLocation(shaderProgram, "gouraudShadingBool");
 var powerLocation = gl.getUniformLocation(shaderProgram, "u_lightPower");
-var blinnLocation = gl.getUniformLocation(shaderProgram, "blinn");
+var lambertLocation = gl.getUniformLocation(shaderProgram, "lambertBool");
+var blinnLocation = gl.getUniformLocation(shaderProgram, "blinnBool");
+let currGouraud = -1
+gl.uniform1f(gouraudShadingLocation, currGouraud);
 let currBlinn = -1
 gl.uniform1f(blinnLocation, currBlinn);
+let currLambert = -1
+gl.uniform1f(lambertLocation, currLambert);
 
 
 var KALocation = gl.getUniformLocation(shaderProgram, "Ka");
@@ -173,6 +179,14 @@ document.addEventListener('keydown', (event) => {
         case "b":
             currBlinn *= -1
             gl.uniform1f(blinnLocation, currBlinn);
+            break
+        case "l":
+            currLambert *= -1
+            gl.uniform1f(lambertLocation, currLambert);
+            break
+        case "g":
+            currGouraud *= -1
+            gl.uniform1f(gouraudShadingLocation, currGouraud);
             break
     }
 }, false);

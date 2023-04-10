@@ -97,7 +97,7 @@ gl.uniform3fv(lightColorLocation, [1 / 2.2, 0.6 / 2.2, 0.6 / 2.2]);  // крас
 gl.uniform3fv(specularColorLocation, [1 / 1.4, 0.2 / 1.4, 0.2 / 1.4]);
 
 
-gl.uniform3fv(ambientColorLocation, [0, 0, 0]);
+gl.uniform3fv(ambientColorLocation, [5/256, 5/256, 5/256]);
 
 gl.uniform1f(KALocation, 1);
 gl.uniform1f(KDLocation, 1);
@@ -196,20 +196,7 @@ initBuffersCube()
 gl.uniform3fv(lightWorldPositionLocation, [20, 30, 50]);
 
 
-let shininessElement = document.getElementById('shininess')
-gl.uniform1f(shininessLocation, shininessElement.value);
-
-shininessElement.addEventListener("input", () => {
-    gl.uniform1f(shininessLocation, shininessElement.value);
-});
-
-
-let powerElement = document.getElementById('power')
-gl.uniform1f(powerLocation, powerElement.value / 100);
-
-powerElement.addEventListener("input", () => {
-    gl.uniform1f(powerLocation, powerElement.value / 100);
-});
+setAllRanges()
 
 function loop() {
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);

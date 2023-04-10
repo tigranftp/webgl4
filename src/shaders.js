@@ -99,8 +99,14 @@ let fsSource =
         'gl_FragColor = vec4(Ka * ambientColor + Kd * lambertian * fragColor +Ks * specular * specularColor, 1.0);',
         'if (lambertBool > 0.0)',
         '   gl_FragColor = vec4(Kd * lambertian * fragColor, 1.0);',
+
+            '    //float nSteps = 4.0;',
+            '    //float step = sqrt(lambertian) * nSteps;',
+            '  //  step = (floor(step) + smoothstep(0.48, 0.52, fract(step))) / nSteps;',
+            '//gl_FragColor = vec4(step * fragColor, 1.0);',
         '}',
         'gl_FragColor.rgb *=u_lightPower; ',
+
         '',
         '}',
     ].join('\n');

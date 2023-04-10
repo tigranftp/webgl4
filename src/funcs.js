@@ -197,3 +197,46 @@ function changeCoordsOfMatrix(mat4, vec3) {
     mat4[13] = vec3[1]
     mat4[14] = vec3[2]
 }
+
+
+function setAllRanges(){
+    let shininessElement = document.getElementById('shininess')
+    gl.uniform1f(shininessLocation, shininessElement.value);
+
+    shininessElement.addEventListener("input", () => {
+        gl.uniform1f(shininessLocation, shininessElement.value);
+    });
+
+
+    let powerElement = document.getElementById('power')
+    gl.uniform1f(powerLocation, powerElement.value / 100);
+
+    powerElement.addEventListener("input", () => {
+        gl.uniform1f(powerLocation, powerElement.value / 100);
+    });
+
+
+    let kaElement = document.getElementById('KA')
+    gl.uniform1f(KALocation, kaElement.value / 1000);
+
+    kaElement.addEventListener("input", () => {
+        gl.uniform1f(KALocation, kaElement.value / 1000);
+    });
+
+
+
+    let kdElement = document.getElementById('KD')
+    gl.uniform1f(KDLocation, kdElement.value / 1000);
+
+    kdElement.addEventListener("input", () => {
+        gl.uniform1f(KDLocation, kdElement.value / 1000);
+    });
+
+
+    let ksElement = document.getElementById('KS')
+    gl.uniform1f(KSLocation, ksElement.value / 1000);
+
+    ksElement.addEventListener("input", () => {
+        gl.uniform1f(KSLocation, ksElement.value / 1000);
+    });
+}

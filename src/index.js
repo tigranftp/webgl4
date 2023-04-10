@@ -57,10 +57,18 @@ var lightWorldPositionLocation = gl.getUniformLocation(shaderProgram, "u_lightWo
 var viewWorldPositionLocation = gl.getUniformLocation(shaderProgram, "u_viewWorldPosition");
 var shininessLocation = gl.getUniformLocation(shaderProgram, "u_shininess");
 var powerLocation = gl.getUniformLocation(shaderProgram, "u_lightPower");
+var blinnLocation = gl.getUniformLocation(shaderProgram, "blinn");
+let currBlinn = -1
+gl.uniform1f(blinnLocation, currBlinn);
+
+
+var KALocation = gl.getUniformLocation(shaderProgram, "Ka");
+var KDLocation = gl.getUniformLocation(shaderProgram, "Kd");
+var KSLocation = gl.getUniformLocation(shaderProgram, "Ks");
+var ambientColorLocation = gl.getUniformLocation(shaderProgram, "ambientColor");
+var specularColorLocation = gl.getUniformLocation(shaderProgram, "specularColor");
 var lightColorLocation =
     gl.getUniformLocation(shaderProgram, "u_lightColor");
-var specularColorLocation =
-    gl.getUniformLocation(shaderProgram, "u_specularColor");
 
 let worldMatrixCube = new Float32Array(16);
 let viewMatrixCube = new Float32Array(16);
@@ -83,6 +91,11 @@ gl.uniform3fv(lightColorLocation, [1 / 2.2, 0.6 / 2.2, 0.6 / 2.2]);  // крас
 gl.uniform3fv(specularColorLocation, [1 / 1.4, 0.2 / 1.4, 0.2 / 1.4]);
 
 
+gl.uniform3fv(ambientColorLocation, [0, 0, 0]);
+
+gl.uniform1f(KALocation, 1);
+gl.uniform1f(KDLocation, 1);
+gl.uniform1f(KSLocation, 1);
 gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
 document.addEventListener('keydown', (event) => {
@@ -157,13 +170,16 @@ document.addEventListener('keydown', (event) => {
             glMatrix.mat4.translate(rightCubeWMatx, rightCubeWMatx, [0, 0, step]);
             glMatrix.mat4.translate(topCubeWMatx, topCubeWMatx, [0, 0, step]);
             break
+        case "b":
+            currBlinn *= -1
+            gl.uniform1f(blinnLocation, currBlinn);
+            break
     }
 }, false);
 
 initBuffersCube()
 // setNormals()
 gl.uniform3fv(lightWorldPositionLocation, [20, 30, 50]);
-
 
 
 let shininessElement = document.getElementById('shininess')
@@ -174,12 +190,11 @@ shininessElement.addEventListener("input", () => {
 });
 
 
-
 let powerElement = document.getElementById('power')
-gl.uniform1f(powerLocation, powerElement.value/100);
+gl.uniform1f(powerLocation, powerElement.value / 100);
 
 powerElement.addEventListener("input", () => {
-    gl.uniform1f(powerLocation, powerElement.value/100);
+    gl.uniform1f(powerLocation, powerElement.value / 100);
 });
 
 function loop() {

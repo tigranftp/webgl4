@@ -157,11 +157,61 @@ document.addEventListener('keydown', (event) => {
             glMatrix.mat4.rotate(rightCubeWMatx, rightCubeWMatx, angle(angleRot), [0, 1, 0]);
             break
         case "q":
-            glMatrix.mat4.rotate(viewMatrixCube, viewMatrixCube, angle(-angleRot), [0, 1, 0]);
+            tmpVec3 = [0.0, 0.0, 0.0]
+            glMatrix.vec3.transformMat4(tmpVec3, tmpVec3, leftCubeWMatx)
+            glMatrix.mat4.rotate(leftCubeWMatx, leftCubeWMatx, angle(-angleRot), [0, 1, 0]);
+            axisOfBotCube = [0.0,0.0,0.0]
+            glMatrix.vec3.rotateY(tmpVec3, tmpVec3, axisOfBotCube, angle(-angleRot))
+            changeCoordsOfMatrix(leftCubeWMatx, tmpVec3)
+
+            tmpVec3 = [0.0, 0.0, 0.0]
+            glMatrix.vec3.transformMat4(tmpVec3, tmpVec3, rightCubeWMatx)
+            glMatrix.mat4.rotate(rightCubeWMatx, rightCubeWMatx, angle(-angleRot), [0, 1, 0]);
+            glMatrix.vec3.rotateY(tmpVec3, tmpVec3, axisOfBotCube, angle(-angleRot))
+            changeCoordsOfMatrix(rightCubeWMatx, tmpVec3)
+
+
+            tmpVec3 = [0.0, 0.0, 0.0]
+            glMatrix.vec3.transformMat4(tmpVec3, tmpVec3, topCubeWMatx)
+            glMatrix.mat4.rotate(topCubeWMatx, topCubeWMatx, angle(-angleRot), [0, 1, 0]);
+            glMatrix.vec3.rotateY(tmpVec3, tmpVec3, axisOfBotCube, angle(-angleRot))
+            changeCoordsOfMatrix(topCubeWMatx, tmpVec3)
+
+
+            tmpVec3 = [0.0, 0.0, 0.0]
+            glMatrix.vec3.transformMat4(tmpVec3, tmpVec3, botCubeWMatx)
+            glMatrix.mat4.rotate(botCubeWMatx, botCubeWMatx, angle(-angleRot), [0, 1, 0]);
+            glMatrix.vec3.rotateY(tmpVec3, tmpVec3, axisOfBotCube, angle(-angleRot))
+            changeCoordsOfMatrix(botCubeWMatx, tmpVec3)
             break
         case "e":
 
-            glMatrix.mat4.rotate(viewMatrixCube, viewMatrixCube, angle(angleRot), [0, 1, 0]);
+            tmpVec3 = [0.0, 0.0, 0.0]
+            glMatrix.vec3.transformMat4(tmpVec3, tmpVec3, leftCubeWMatx)
+            glMatrix.mat4.rotate(leftCubeWMatx, leftCubeWMatx, angle(angleRot), [0, 1, 0]);
+            axisOfBotCube = [0.0,0.0,0.0]
+            glMatrix.vec3.rotateY(tmpVec3, tmpVec3, axisOfBotCube, angle(angleRot))
+            changeCoordsOfMatrix(leftCubeWMatx, tmpVec3)
+
+            tmpVec3 = [0.0, 0.0, 0.0]
+            glMatrix.vec3.transformMat4(tmpVec3, tmpVec3, rightCubeWMatx)
+            glMatrix.mat4.rotate(rightCubeWMatx, rightCubeWMatx, angle(angleRot), [0, 1, 0]);
+            glMatrix.vec3.rotateY(tmpVec3, tmpVec3, axisOfBotCube, angle(angleRot))
+            changeCoordsOfMatrix(rightCubeWMatx, tmpVec3)
+
+
+            tmpVec3 = [0.0, 0.0, 0.0]
+            glMatrix.vec3.transformMat4(tmpVec3, tmpVec3, topCubeWMatx)
+            glMatrix.mat4.rotate(topCubeWMatx, topCubeWMatx, angle(angleRot), [0, 1, 0]);
+            glMatrix.vec3.rotateY(tmpVec3, tmpVec3, axisOfBotCube, angle(angleRot))
+            changeCoordsOfMatrix(topCubeWMatx, tmpVec3)
+
+
+            tmpVec3 = [0.0, 0.0, 0.0]
+            glMatrix.vec3.transformMat4(tmpVec3, tmpVec3, botCubeWMatx)
+            glMatrix.mat4.rotate(botCubeWMatx, botCubeWMatx, angle(angleRot), [0, 1, 0]);
+            glMatrix.vec3.rotateY(tmpVec3, tmpVec3, axisOfBotCube, angle(angleRot))
+            changeCoordsOfMatrix(botCubeWMatx, tmpVec3)
             break
         case "w":
             glMatrix.mat4.translate(leftCubeWMatx, leftCubeWMatx, [0, 0, step]);

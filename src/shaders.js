@@ -32,7 +32,7 @@ let vsSource =
         '   fragColor = uColors;',
         '   vec3 surfaceWorldPosition = (mWorld * vec4(vertPositions, 1.0)).xyz;',
         '   v_surfaceToLight = normalize(u_lightWorldPosition - surfaceWorldPosition);',
-        '   v_normal = mat3(mWorld) * a_normal;',
+        '   v_normal = vec3(mWorld * vec4(a_normal, 0.0));',
         '   v_surfaceToView = normalize(u_viewWorldPosition - surfaceWorldPosition);',
         '   gl_Position = mProj * mView * mWorld * vec4(vertPositions, 1.0);',
 
@@ -102,8 +102,8 @@ let fsSource =
 
             '    //float nSteps = 4.0;',
             '    //float step = sqrt(lambertian) * nSteps;',
-            '  //  step = (floor(step) + smoothstep(0.48, 0.52, fract(step))) / nSteps;',
-            '//gl_FragColor = vec4(step * fragColor, 1.0);',
+            '   //step = (floor(step) + smoothstep(0.48, 0.52, fract(step))) / nSteps;',
+            '   //gl_FragColor = vec4(step * fragColor, 1.0);',
         '}',
         'gl_FragColor.rgb *=u_lightPower; ',
 
